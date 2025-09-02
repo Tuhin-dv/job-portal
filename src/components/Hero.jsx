@@ -11,7 +11,7 @@ function Hero() {
             <div className="absolute bottom-[-100px] right-[-100px] w-[260px] h-[260px] rounded-full blur-2xl z-0"></div> */}
                 <div className="relative z-10 w-full max-w-[1700px] mx-auto px-6 py-16 flex flex-col md:flex-row items-center justify-between gap-10">
                     <div className="flex-1 text-center md:text-left">
-                        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight drop-shadow-lg">
+                        <h1 className="text-5xl font md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight drop-shadow-lg">
                             Find The Job That Fits <span className="text-blue-500">Your Life</span>
                         </h1>
                         <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-[500px] mx-auto md:mx-0">
