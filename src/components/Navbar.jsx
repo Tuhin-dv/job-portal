@@ -3,7 +3,7 @@ import React from 'react'
 
 function Navbar() {
     return (
-        <div className='bg-white/95  text-black py-3 border-b border-gray-300'>
+        <div className='bg-white sticky top-0 z-50 text-black py-3 border-b border-gray-300'>
             <div className='max-w-[1700px] mx-auto flex justify-between items-center px-4'>
                 <div>
                     <Link className='flex gap-1.5 items-center' href="/">
