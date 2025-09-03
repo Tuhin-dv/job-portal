@@ -73,7 +73,6 @@ function WorksProcess() {
           </div>
         ))}
       </div>
-
     </section>
   );
 }

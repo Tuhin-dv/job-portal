@@ -1,14 +1,16 @@
 import Hero from "@/components/Hero";
-import Navbar from "@/components/Navbar";
+import Jobs from "@/components/Jobs";
+import OurServices from "@/components/OurServices";
 import WorksProcess from "@/components/WorksProcess";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
+     
       <Hero />
       <WorksProcess></WorksProcess>
-     
+      <OurServices></OurServices>
+      <Jobs></Jobs>
     </>
   );
 }

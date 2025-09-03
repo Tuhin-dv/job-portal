@@ -8,7 +8,7 @@ export default function JobStats() {
     return (
         <div className="bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-600
 ">
-            <div className="h-[200px] max-w-[1700px] mx-auto  flex items-center justify-between px-4   overflow-hidden">
+            <div className="h-[250px] max-w-[1700px] mx-auto  flex items-center justify-between px-4   overflow-hidden">
                 {/* Left side image + text */}
                 <div className="flex items-center gap-4 w-1/2">
                     <Image src={people} width={200} height={200} alt="people group img"/>
