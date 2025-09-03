@@ -1,5 +1,6 @@
+"use client"
 import React from 'react'
-
+import { motion } from "framer-motion";
 const steps = [
   {
     icon: (
@@ -72,6 +73,7 @@ function WorksProcess() {
           </div>
         ))}
       </div>
+
     </section>
   );
 }
