@@ -1,7 +1,7 @@
 import React from 'react';
 import JobCard from './JobCard';
 
-const jobsData = [
+export const jobsData = [
     {
         id: 1,
         title: 'Frontend Developer',

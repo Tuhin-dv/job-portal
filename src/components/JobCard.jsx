@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import React from 'react'
 import logo from '@/assets/BannerImg.png'
+import Link from 'next/link';
 
 function JobCard({ job }) {
     return (
@@ -19,10 +20,12 @@ function JobCard({ job }) {
             </div>
             <div>
                 <div className='mt-4'>
-                    <button className='bg-blue-500 text-white px-4 py-2 rounded-lg'>Apply</button>
+                    <button className='bg-blue-500 text-white px-4 w-full py-2 rounded-lg'>Apply</button>
                 </div>
                 <div>
-                    <button className='bg-gray-300 text-black px-4 py-2 rounded-lg mt-2'>View Details</button>
+                    <Link href={`/job-details/${job.id}`}>
+                        <button className='bg-gray-300 text-black px-4 py-2 rounded-lg mt-2'>View Details</button>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -46,3 +49,4 @@ export default JobCard;
 //         <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold text-sm transition-colors shadow">View Details</button>
 //       </div>
 //     </div>
+

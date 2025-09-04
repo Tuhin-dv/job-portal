@@ -20,6 +20,7 @@ function Navbar() {
                     <Link href="/about">ABOUT US</Link>
                     <Link href="/jobs">JOBS</Link>
                     <Link href="/contact">CONTACT US</Link>
+                    <Link href="/dashboard">DASHBOARD</Link>
                 </div>
                 {/* Desktop Auth Buttons */}
                 <div className="hidden md:flex space-x-4 text-white font-semibold bg-blue-500 py-2 px-4 rounded-lg">
@@ -41,6 +42,7 @@ function Navbar() {
                     <Link href="/about" onClick={() => setMenuOpen(false)}>ABOUT US</Link>
                     <Link href="/jobs" onClick={() => setMenuOpen(false)}>JOBS</Link>
                     <Link href="/contact" onClick={() => setMenuOpen(false)}>CONTACT US</Link>
+                    <Link href="/dashboard" onClick={() => setMenuOpen(false)}>DASHBOARD</Link>
                     <div className="flex space-x-4 text-white font-semibold bg-blue-500 py-2 px-4 rounded-lg">
                         <Link href="/login" onClick={() => setMenuOpen(false)}>LOGIN</Link>
                         <div>/</div>
