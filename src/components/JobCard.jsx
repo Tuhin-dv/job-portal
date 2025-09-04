@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 function JobCard({ job }) {
     return (
-        <div className='bg-white rounded-lg text-black flex justify-between items-center px-10 p-8'>
+        <div className='bg-white rounded-lg text-black flex justify-between items-center px-10 p-9'>
             <div>
                 <Image width={150} height={150} src={logo} alt='company logo' />
             </div>

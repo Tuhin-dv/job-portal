@@ -29,21 +29,21 @@ export default function DashboardLayout({ children }) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 z-50 min-h-screen w-72 bg-gray-700 text-white shadow-lg
+          fixed top-0 left-0 z-50 h-screen w-72 bg-gray-700 text-white shadow-lg
           transform transition-transform duration-300 ease-in-out
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           lg:static lg:translate-x-0 lg:z-auto
         `}
       >
-        <div className="flex h-full flex-col">
+        <div className="flex flex-col h-full overflow-y-auto">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-white/20">
             <div className="flex items-center gap-3">
-             <Link href="/">
-              <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">MS</span>
-              </div>
-             </Link>
+              <Link href="/">
+                <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">MS</span>
+                </div>
+              </Link>
               <div>
                 <h1 className="font-bold text-lg text-white">MyShop</h1>
                 <p className="text-sm text-white/70">Dashboard</p>
@@ -100,7 +100,7 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-screen">
         {/* Header */}
         <header className="sticky top-0 z-30 bg-white backdrop-blur-md border-b border-gray-200">
           <div className="flex items-center justify-between px-4 py-4 lg:px-8">

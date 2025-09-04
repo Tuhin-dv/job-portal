@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import React from 'react'
 
@@ -10,6 +11,7 @@ function page() {
          <h1>About Us</h1>
          <p>We are a company dedicated to helping you find your dream job.</p>
        </div>
+       <Footer></Footer>
     </div>
   )
 }

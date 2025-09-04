@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Jobs from "@/components/Jobs";
 import Navbar from "@/components/Navbar";
@@ -12,6 +13,7 @@ export default function Home() {
       <WorksProcess></WorksProcess>
       <OurServices></OurServices>
       <Jobs></Jobs>
+      <Footer/>
     </>
   );
 }
