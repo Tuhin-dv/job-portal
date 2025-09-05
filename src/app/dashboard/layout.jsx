@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }) {
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black bg-opacity-30 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/70 bg-opacity-30 backdrop-blur-sm lg:hidden"
           onClick={handleLinkClick}
         />
       )}
