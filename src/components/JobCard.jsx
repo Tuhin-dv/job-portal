@@ -7,7 +7,7 @@ import Link from 'next/link';
 function JobCard({ job }) {
     console.log(job)
     return (
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-7 flex flex-col md:flex-row gap-6 items-center transition-transform hover:-translate-y-2 hover:shadow-2xl">
+        <div className="bg-white rounded-2xl  border border-gray-100 p-7 flex flex-col md:flex-row gap-6 items-center transition-transform hover:-translate-y-2 hover:shadow-sm">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center justify-center bg-blue-50 rounded-xl w-28 h-28 md:w-32 md:h-32 border border-blue-100">
                 <Image width={90} height={90} src={job.logo || "/placeholder.webp"} alt="company logo" className="object-contain w-20 h-20 md:w-24 md:h-24" />

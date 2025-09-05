@@ -13,7 +13,7 @@ export default function DashboardLayout({ children }) {
   const navigationItems = [
     { href: "/dashboard", label: "Overview", icon: Home },
     { href: "/dashboard/jobpost", label: "Job Post", icon: Plus },
-    { href: "/dashboard/add-product", label: "Add Product", icon: Plus },
+    { href: "/dashboard/manage-user", label: "Manage User", icon: Plus },
   ]
 
   return (
