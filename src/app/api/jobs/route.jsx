@@ -2,12 +2,24 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "../../../../lib/mongodb";
 import Job from "../../../../models/job";
 
+// ধরছি তুমি logged-in user ID / email আছে req.user থেকে বা demoUser ব্যবহার করবে
+const DEMO_USER = "demoUser";
+
 export async function POST(request) {
   try {
     await connectToDatabase();
     const data = await request.json();
 
-    const newJob = await Job.create(data);
+    // hidden/system fields add
+    const newJobData = {
+      ...data,                     // user input
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      status: "Active",
+      postedBy: DEMO_USER,
+    };
+
+    const newJob = await Job.create(newJobData);
 
     return NextResponse.json({ success: true, job: newJob });
   } catch (err) {
