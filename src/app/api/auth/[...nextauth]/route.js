@@ -1,16 +1,27 @@
+
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import User from "@/models/users";
+
+const MONGODB_URI = process.env.MONGODB_URI;
+async function connectToDB() {
+  if (mongoose.connection.readyState === 0) {
+    await mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  }
+}
 
 export const authOptions = {
   providers: [
-    // ✅ Google login
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-
-    // ✅ Credentials login
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -18,35 +29,44 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const { email, password } = credentials;
-
-        // 🔹 ekhane DB theke user check korte hobe
-        if (email === "test@gmail.com" && password === "123456") {
-          return { id: "1", name: "Test User", email: "test@gmail.com", role: "user" };
-        }
-
-        return null; // login fail
+        await connectToDB();
+        const user = await User.findOne({ email: credentials.email });
+        if (!user || !user.password) return null;
+        const isValid = await bcrypt.compare(credentials.password, user.password);
+        if (!isValid) return null;
+        return {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          image: user.image,
+        };
       },
     }),
   ],
-
   pages: {
-    signIn: "/login", // custom login page
+    signIn: "/login",
   },
-
   session: {
     strategy: "jwt",
   },
-
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role || "user"; // role set kora
+        token.role = user.role || "user";
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.image = user.image;
       }
       return token;
     },
     async session({ session, token }) {
       session.user.role = token.role;
+      session.user.id = token.id;
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.image = token.image;
       return session;
     },
   },

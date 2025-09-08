@@ -1,9 +1,12 @@
 
 "use client";
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -15,11 +18,12 @@ const schema = z.object({
   companyLocation: z.string().optional(),
 });
 
+
 export default function RegisterPage() {
   const [showCompanyForm, setShowCompanyForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const router = useRouter();
 
   const {
     register,
@@ -34,7 +38,6 @@ export default function RegisterPage() {
   const onSubmit = async (data) => {
     setLoading(true);
     setError("");
-    setSuccess("");
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -43,8 +46,17 @@ export default function RegisterPage() {
       });
       const result = await res.json();
       if (result.success) {
-        setSuccess("Registration successful! Please login.");
-        reset();
+        // Auto-login after registration
+        const loginRes = await signIn("credentials", {
+          redirect: false,
+          email: data.email,
+          password: data.password,
+        });
+        if (!loginRes.error) {
+          router.push("/");
+        } else {
+          setError("Registration succeeded but auto-login failed. Please login manually.");
+        }
       } else {
         setError(result.message || "Registration failed");
       }
@@ -64,7 +76,6 @@ export default function RegisterPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
         {error && <p className="text-red-500 mb-2 text-center">{error}</p>}
-        {success && <p className="text-green-600 mb-2 text-center">{success}</p>}
         <div className="mb-4">
           <label className="block mb-1">Name</label>
           <input type="text" {...register("name")} className="w-full px-3 py-2 border rounded placeholder:text-gray-400" placeholder="Enter your name" />
@@ -106,6 +117,18 @@ export default function RegisterPage() {
           </div>
         )}
         <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition mb-4" disabled={loading}>{loading ? "Registering..." : "Register"}</button>
+        <div className="my-6 flex items-center">
+          <hr className="flex-grow border-gray-300" />
+          <span className="px-3 text-gray-500 text-sm">OR</span>
+          <hr className="flex-grow border-gray-300" />
+        </div>
+        <button
+          type="button"
+          onClick={() => signIn("google", { callbackUrl: "/" })}
+          className="w-full py-2 bg-red-500 text-white font-semibold rounded-xl hover:bg-red-600 transition duration-300 mb-2"
+        >
+          Continue with Google
+        </button>
         <div className="text-center mt-2">
           <a href="/login" className="text-blue-600 hover:underline">Already have an account? Login</a>
         </div>
