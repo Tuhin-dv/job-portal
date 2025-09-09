@@ -7,7 +7,7 @@ import people from '@/assets/peopleImg.png'
 export default function JobStats() {
     return (
         <div className="bg-gradient-to-r from-teal-500  via-cyan-500 to-blue-600">
-            <div className="max-w-[1700px] mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0 overflow-hidden">
+            <div className="max-w-[1600px] mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0 overflow-hidden">
                 {/* Left side image + text */}
                 <div className="flex items-center gap-4 w-full md:w-1/2 justify-center md:justify-start">
                     <Image src={people} width={140} height={140} alt="people group img" className="w-[100px] h-[100px] md:w-[140px] md:h-[140px]" />

@@ -28,7 +28,7 @@ function Navbar() {
 
     return (
         <div className="bg-white sticky top-0 z-50 text-black py-3 border-b border-gray-300">
-            <div className="max-w-[1700px] mx-auto flex justify-between items-center px-4">
+            <div className="max-w-[1600px] mx-auto flex justify-between items-center px-4">
                 {/* Logo */}
                 <div className="flex-shrink-0">
                     <Link className="flex gap-1.5 items-center" href="/">

@@ -55,7 +55,7 @@ function WorksProcess() {
         <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Work Process</h2>
         <p className="text-lg text-gray-600 mb-8">We make your job search simple and effective. Follow these easy steps to land your dream job and grow your career with us.</p>
       </div>
-      <div className="max-w-[1700px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+      <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
         {steps.map((step, idx) => (
           <div key={idx} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center relative group transition-transform hover:-translate-y-2">
             {/* Top Icon */}

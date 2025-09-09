@@ -110,7 +110,7 @@ function OurServices() {
         </div>
         <p className="text-lg text-gray-600 mb-8">We offer a variety of services to help you achieve your goals.</p>
       </div>
-      <div className="max-w-[1700px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 px-4">
+      <div className="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 px-4">
         {services.map((service, idx) => (
           <div key={idx} className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center transition-transform hover:-translate-y-2 border border-[#f3f3f3]">
             {service.icon}

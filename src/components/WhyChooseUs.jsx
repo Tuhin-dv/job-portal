@@ -4,8 +4,8 @@ import { CheckCircle } from "lucide-react"
 
 export default function WhyChooseUs() {
     return (
-        <div className="bg-gray-100">
-            <section className="max-w-[1700px] mx-auto py-16 px-4 md:px-8 flex flex-col md:flex-row gap-12 md:gap-20 items-center">
+        <div className="bg-white">
+            <section className="max-w-[1600px] mx-auto py-16 px-4 md:px-8 flex flex-col md:flex-row gap-12 md:gap-20 items-center">
                 {/* Left Side Image */}
                 <div className="flex justify-center items-start w-full md:w-1/2">
                     <Image

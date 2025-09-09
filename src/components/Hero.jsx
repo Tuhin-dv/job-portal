@@ -10,7 +10,7 @@ function Hero() {
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-3xl -z-10"></div>
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-100/40 rounded-full blur-3xl -z-10"></div>
 
-        <div className="relative z-10 w-full max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-[200px]">
+        <div className="relative z-10 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-[200px]">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left Content */}
             <div className="space-y-8">

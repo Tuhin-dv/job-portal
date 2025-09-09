@@ -42,7 +42,9 @@ export default function LoginPage() {
 
     if (res?.error) alert("❌ Invalid credentials");
     else {
-      alert("✅ Login successful!");
+      if (typeof window !== "undefined") {
+        localStorage.setItem("showLoginToast", "1");
+      }
       window.location.href =
         data.role === "company" ? "/dashboard" : "/";
     }
@@ -50,6 +52,9 @@ export default function LoginPage() {
 
   // ✅ Google login
   const handleGoogleLogin = async () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("showLoginToast", "1");
+    }
     await signIn("google", { callbackUrl: "/" });
   };
 
