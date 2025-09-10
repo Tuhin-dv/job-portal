@@ -51,10 +51,10 @@ function Navbar() {
                     {status === "authenticated" ? (
                         <>
                             {session.user.image && (
-                                <img 
-                                    src={session.user.image} 
-                                    alt="profile" 
-                                    className="w-8 h-8 rounded-full cursor-pointer" 
+                                <img
+                                    src={session.user.image}
+                                    alt="profile"
+                                    className="w-8 h-8 rounded-full cursor-pointer"
                                     onClick={() => setProfileOpen(true)}
                                 />
                             )}
@@ -107,51 +107,63 @@ function Navbar() {
             </div>
 
             {/* Profile Modal */}
-            {profileOpen && session && (
-               <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-    <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 relative flex flex-col items-center">
-        {/* Close Button */}
-        <button 
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 font-bold text-2xl transition"
-            onClick={() => setProfileOpen(false)}
-        >
-            &times;
-        </button>
+            {/* Profile Modal */}
+            {profileOpen && session  && (
+                <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 relative flex flex-col items-center">
+                        {/* Close Button */}
+                     
 
-        {/* Avatar */}
-        {session.user.image ? (
-            <img 
-                src={session.user.image} 
-                alt="Profile" 
-                className="w-24 h-24 rounded-full border-4 border-blue-500 mb-4 shadow-md"
-            />
-        ) : (
-            <div className="w-24 h-24 rounded-full bg-gray-200 mb-4 flex items-center justify-center text-2xl font-bold text-gray-500">
-                {session.user.name ? session.user.name[0] : 'U'}
-            </div>
-        )}
+                        <button
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 font-bold text-2xl transition"
+                            onClick={() => setProfileOpen(false)}
+                        >
+                            &times;
+                        </button>
 
-        {/* Title */}
-        <h2 className="text-2xl font-bold text-gray-800 mb-1">{session.user.name || 'N/A'}</h2>
-        <p className="text-gray-500 mb-4">{session.user.email}</p>
+                        {/* Avatar */}
+                        {session.user.image ? (
+                            <img
+                                src={session.user.image}
+                                alt="Profile"
+                                className="w-24 h-24 rounded-full border-4 border-blue-500 mb-4 shadow-md"
+                            />
+                        ) : (
+                            <div className="w-24 h-24 rounded-full bg-gray-200 mb-4 flex items-center justify-center text-2xl font-bold text-gray-500">
+                                {session.user.name ? session.user.name[0] : 'U'}
+                            </div>
+                        )}
 
-        {/* Info Box */}
-        <div className="w-full bg-gray-50 rounded-xl p-4 mb-4 shadow-inner space-y-2">
-            <p><span className="font-semibold text-gray-700">Role:</span> {session.user.role || 'user'}</p>
-            <p><span className="font-semibold text-gray-700">Joined At:</span> {new Date(session.user.createdAt || Date.now()).toLocaleDateString()}</p>
-        </div>
+                        {/* Name & Email */}
+                        <h2 className="text-2xl font-bold text-gray-800 mb-1">{session.user.name || 'N/A'}</h2>
+                        <p className="text-gray-500 mb-4">{session.user.email}</p>
 
-        {/* Logout Button */}
-        <button 
-            onClick={handleLogout} 
-            className="w-full bg-blue-500 text-white py-2 rounded-xl font-semibold hover:bg-blue-600 transition-all shadow-md"
-        >
-            Logout
-        </button>
-    </div>
-</div>
+                        {/* Info Box */}
+                        <div className="w-full bg-gray-50 rounded-xl p-4 mb-4 shadow-inner space-y-2">
+                            <p><span className="font-semibold text-gray-700">Role:</span> {session.user.role || 'user'}</p>
 
+                            {session.user.role === "company" ? (
+                                <>
+                                    <p><span className="font-semibold text-gray-700">Company Name:</span> {session.user.companyName || 'N/A'}</p>
+                                    <p><span className="font-semibold text-gray-700">Website:</span> {session.user.companyWebsite || 'N/A'}</p>
+                                    <p><span className="font-semibold text-gray-700">Location:</span> {session.user.companyLocation || 'N/A'}</p>
+                                </>
+                            ) : (
+                                <p><span className="font-semibold text-gray-700">Joined At:</span> {new Date(session.user.createdAt || Date.now()).toLocaleDateString()}</p>
+                            )}
+                        </div>
+
+                        {/* Logout Button */}
+                        <button
+                            onClick={handleLogout}
+                            className="w-full bg-blue-500 text-white py-2 rounded-xl font-semibold hover:bg-blue-600 transition-all shadow-md"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
             )}
+
         </div>
     )
 }

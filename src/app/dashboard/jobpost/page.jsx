@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
 
 export default function JobPostpage() {
+  const { data: session } = useSession();
+
   const {
     register,
     handleSubmit,
@@ -10,22 +13,39 @@ export default function JobPostpage() {
     reset,
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const res = await fetch("/api/jobs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const result = await res.json();
-      if (result.success) {
-        alert("Job posted successfully!");
-        reset();
-      } else alert("Error: " + result.message);
-    } catch (err) {
-      alert("Error: " + err.message);
-    }
-  };
+const onSubmit = async (data) => {
+  if (!session || session.user.role !== "company") {
+    alert("Only companies can post jobs!");
+    return;
+  }
+
+  try {
+    // attach correct company info from session
+    const jobData = {
+      ...data,
+      companyId: session.user.id,
+      companyName: session.user.companyName || session.user.name,
+      companyEmail: session.user.email,
+      companyWebsite: session.user.companyWebsite || "",
+      companyLocation: session.user.companyLocation || "",
+      companyLogo: session.user.image || "",
+    };
+
+    const res = await fetch("/api/jobs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(jobData),
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      alert("Job posted successfully!");
+      reset();
+    } else alert("Error: " + result.message);
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+};
 
   return (
     <div className="max-w-7xl mx-auto py-12 px-6">
@@ -49,7 +69,9 @@ export default function JobPostpage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 placeholder:text-gray-400"
               placeholder="Enter job title"
             />
-            {errors.title && <p className="text-red-500 text-sm mt-1">Title is required</p>}
+            {errors.title && (
+              <p className="text-red-500 text-sm mt-1">Title is required</p>
+            )}
           </div>
 
           <div>
@@ -62,7 +84,9 @@ export default function JobPostpage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 placeholder:text-gray-400"
               placeholder="Describe the job role and responsibilities"
             />
-            {errors.description && <p className="text-red-500 text-sm mt-1">Description is required</p>}
+            {errors.description && (
+              <p className="text-red-500 text-sm mt-1">Description is required</p>
+            )}
           </div>
 
           <div>
@@ -73,17 +97,31 @@ export default function JobPostpage() {
               {...register("jobType", { required: true })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 placeholder:text-gray-400"
             >
-              <option className="text-black" value="">Select job type</option>
-              <option className="text-gray-400" value="Full Time">Full Time</option>
-              <option className="text-gray-400" value="Part Time">Part Time</option>
-              <option className="text-gray-400" value="Contract">Contract</option>
-              <option className="text-gray-400" value="Remote">Remote</option>
+              <option className="text-black" value="">
+                Select job type
+              </option>
+              <option className="text-gray-400" value="Full Time">
+                Full Time
+              </option>
+              <option className="text-gray-400" value="Part Time">
+                Part Time
+              </option>
+              <option className="text-gray-400" value="Contract">
+                Contract
+              </option>
+              <option className="text-gray-400" value="Remote">
+                Remote
+              </option>
             </select>
-            {errors.jobType && <p className="text-red-500 text-sm mt-1">Job type is required</p>}
+            {errors.jobType && (
+              <p className="text-red-500 text-sm mt-1">Job type is required</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-lg font-semibold mb-2 text-gray-700">Salary Range</label>
+            <label className="block text-lg font-semibold mb-2 text-gray-700">
+              Salary Range
+            </label>
             <input
               {...register("salary")}
               type="text"
@@ -101,46 +139,49 @@ export default function JobPostpage() {
               type="date"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 placeholder:text-gray-400"
             />
-            {errors.applicationDeadline && <p className="text-red-500 text-sm mt-1">Deadline is required</p>}
+            {errors.applicationDeadline && (
+              <p className="text-red-500 text-sm mt-1">Deadline is required</p>
+            )}
           </div>
         </div>
 
         {/* Right Column */}
         <div className="flex flex-col gap-6">
+          <p className="text-gray-500 mb-4">
+            Company info will be attached automatically from your account.
+          </p>
           <div>
-            <label className="block text-lg font-semibold mb-2 text-gray-700">Company Name</label>
+            <label className="block text-lg font-semibold mb-2 text-gray-700">
+              Job Image URL
+            </label>
             <input
-              {...register("company", { required: true })}
-              type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 placeholder:text-gray-400"
-              placeholder="Enter company name"
-            />
-            {errors.company && <p className="text-red-500 text-sm mt-1">Company name is required</p>}
-          </div>
-
-          <div>
-            <label className="block text-lg font-semibold mb-2 text-gray-700">Company Logo URL</label>
-            <input
-              {...register("logo")}
+              {...register("image")}
               type="url"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 placeholder:text-gray-400"
-              placeholder="Paste logo image URL"
+              placeholder="Paste job image URL"
             />
           </div>
 
+
           <div>
-            <label className="block text-lg font-semibold mb-2 text-gray-700">Job Location</label>
+            <label className="block text-lg font-semibold mb-2 text-gray-700">
+              Job Location
+            </label>
             <input
               {...register("location", { required: true })}
               type="text"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 placeholder:text-gray-400"
               placeholder="e.g., Dhaka, Remote"
             />
-            {errors.location && <p className="text-red-500 text-sm mt-1">Location is required</p>}
+            {errors.location && (
+              <p className="text-red-500 text-sm mt-1">Location is required</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-lg font-semibold mb-2 text-gray-700">Skills Required</label>
+            <label className="block text-lg font-semibold mb-2 text-gray-700">
+              Skills Required
+            </label>
             <input
               {...register("skills")}
               type="text"
@@ -150,14 +191,18 @@ export default function JobPostpage() {
           </div>
 
           <div>
-            <label className="block text-lg font-semibold mb-2 text-gray-700">Application Email</label>
+            <label className="block text-lg font-semibold mb-2 text-gray-700">
+              Application Email
+            </label>
             <input
               {...register("applicationEmail", { required: true })}
               type="email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 placeholder:text-gray-400"
               placeholder="hr@company.com"
             />
-            {errors.applicationEmail && <p className="text-red-500 text-sm mt-1">Email is required</p>}
+            {errors.applicationEmail && (
+              <p className="text-red-500 text-sm mt-1">Email is required</p>
+            )}
           </div>
         </div>
 

@@ -67,6 +67,17 @@ export const authOptions = {
       session.user.name = token.name;
       session.user.email = token.email;
       session.user.image = token.image;
+
+      // Attach company fields if user is a company
+      if (token.role === "company" && token.email) {
+        await connectToDB();
+        const dbUser = await User.findOne({ email: token.email });
+        if (dbUser) {
+          session.user.companyName = dbUser.companyName || null;
+          session.user.companyWebsite = dbUser.companyWebsite || null;
+          session.user.companyLocation = dbUser.companyLocation || null;
+        }
+      }
       return session;
     },
   },

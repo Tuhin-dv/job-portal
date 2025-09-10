@@ -6,12 +6,21 @@ const JobSchema = new mongoose.Schema({
   jobType: { type: String, required: true },
   salary: { type: String, required: true },
   applicationDeadline: { type: Date, required: true },
-  company: { type: String, required: true },
-  logo: { type: String }, // Company logo URL
   location: { type: String, required: true },
   skills: { type: String },
   applicationEmail: { type: String, required: true },
+
+  // Company info from session
+  companyId: { type: String, required: true },
+  companyName: { type: String, required: true },
+  companyEmail: { type: String, required: true },
+  companyWebsite: { type: String },
+  companyLocation: { type: String },
+  companyLogo: { type: String },
+
+  status: { type: String, default: "Active" },
   createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.models.Job || mongoose.model("Job", JobSchema);
