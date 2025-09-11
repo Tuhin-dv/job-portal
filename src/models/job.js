@@ -4,11 +4,18 @@ const JobSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   jobType: { type: String, required: true },
-  salary: { type: String, required: true },
+  salary: { type: String },
   applicationDeadline: { type: Date, required: true },
   location: { type: String, required: true },
   skills: { type: String },
   applicationEmail: { type: String, required: true },
+
+  // New fields from form
+  image: { type: String },
+  workHours: { type: String },
+  duration: { type: String },
+  jobPeriod: { type: String },
+  tags: [{ type: String }],
 
   // Company info from session
   companyId: { type: String, required: true },

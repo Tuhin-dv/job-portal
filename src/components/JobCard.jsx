@@ -1,55 +1,113 @@
 "use client";
 import Image from "next/image";
-import React from "react";
 import Link from "next/link";
+import React from "react";
+import { MapPin, Clock, Calendar, Bookmark } from "lucide-react";
 
 function JobCard({ job }) {
+  // convert skills string -> array
+  const skillsArray = job.skills
+    ? job.skills.split(",").map((s) => s.trim())
+    : [];
+
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-7 flex flex-col md:flex-row gap-6 items-center transition-transform hover:-translate-y-2 hover:shadow-md">
-      {/* Logo */}
-      <div className="flex-shrink-0 flex items-center justify-center bg-blue-50 rounded-xl w-28 h-28 md:w-32 md:h-32 border border-blue-100">
+    <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col md:flex-row items-center md:items-start gap-6 hover:shadow-lg transition-transform hover:-translate-y-1">
+
+      {/* Company Logo */}
+      <div className="flex-shrink-0 flex items-center justify-center bg-blue-50 border border-blue-100 rounded-xl w-24 h-24 md:w-28 md:h-28">
         <Image
-          width={90}
-          height={90}
-          src={job.logo || "/placeholder.webp"}
-          alt={job.company || "company logo"}
-          className="object-contain w-20 h-20 md:w-24 md:h-24"
+          width={80}
+          height={80}
+          src={job.companyLogo || "/placeholder.webp"}
+          alt={job.companyName || "company logo"}
+          className="object-contain w-16 h-16 md:w-20 md:h-20"
         />
       </div>
 
-      {/* Info */}
-      <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
-        <h1 className="font-bold text-xl md:text-2xl text-gray-900 mb-1 line-clamp-1">
-          {job.title}
-        </h1>
-        <p className="text-gray-600 text-sm md:text-base mb-3 line-clamp-2">
-          {job.description}
-        </p>
-        <div className="flex flex-wrap gap-2 mb-4 justify-center md:justify-start">
-          <span className="inline-block bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-semibold">
-            {job.jobType}
-          </span>
-          {job.salary && (
-            <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-              ${job.salary}/mo
-            </span>
-          )}
-        </div>
-      </div>
+      {/* Job Info */}
+      <div className="flex-1 w-full">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
+          {/* Status + Title */}
+          <div>
+            {job.status && (
+              <span className="text-red-500 text-xs font-semibold bg-red-50 px-2 py-1 rounded mr-2">
+                {job.status}
+              </span>
+            )}
+            <h2 className="font-bold text-lg md:text-xl text-gray-900 mt-2">
+              {job.title}
+            </h2>
+          </div>
 
-      {/* Actions */}
-      <div className="flex flex-col gap-2 w-full md:w-auto items-center md:items-end">
-        <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-sm shadow transition-colors w-full md:w-auto">
-          Apply
-        </button>
-        <Link
-          href={`/job-details/${job._id?.toString?.() || job.id}`}
-          className="w-full md:w-auto"
-        >
-          <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-semibold text-sm shadow transition-colors w-full md:w-auto">
-            View Details
-          </button>
-        </Link>
+          {/* Salary */}
+
+          <div className="flex flex-col items-start md:items-end gap-2">
+            {/* Bookmark Icon */}
+            <Bookmark className="text-gray-500 hover:text-gray-900 cursor-pointer" size={24} />
+
+            {/* Salary */}
+            {job.salary && (
+              <p className="text-gray-900 font-bold text-xl">${job.salary}K</p>
+            )}
+          </div>
+        </div>
+
+        {/* Work Info */}
+        <div className="flex flex-wrap gap-4 text-gray-600 text-sm mb-3">
+          <span className="flex items-center gap-1">
+            <MapPin size={14} /> {job.location || job.companyLocation}
+          </span>
+          <span className="flex items-center gap-1">
+            <Clock size={14} /> {job.jobType}
+          </span>
+          <span className="flex items-center gap-1">
+            <Calendar size={14} />{" "}
+            {new Date(job.applicationDeadline).toLocaleDateString()}
+          </span>
+        </div>
+
+        {/* Skills */}
+        {skillsArray.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-3">
+            {skillsArray.map((skill, i) => (
+              <span
+                key={i}
+                className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Tags */}
+        {job.tags && job.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {job.tags.map((tag, i) => (
+              <span
+                key={i}
+                className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="flex flex-col md:flex-row gap-3">
+          <a
+            href={`mailto:${job.applicationEmail}`}
+            className="bg-gray-900 hover:bg-black text-white px-5 py-2 rounded-lg font-semibold text-sm transition w-full md:w-auto text-center"
+          >
+            Apply
+          </a>
+          <Link href={`/job-details/${job._id}`}>
+            <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold text-sm transition w-full md:w-auto">
+              View Details
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
