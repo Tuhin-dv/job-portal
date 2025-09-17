@@ -3,8 +3,38 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { MapPin, Clock, Calendar, Bookmark } from "lucide-react";
-
+import { useSession } from "next-auth/react";
 function JobCard({ job }) {
+  const { data: session } = useSession(); 
+  const handleBookmark = async () => {
+    if (!session?.user?.email) {
+      alert("Please login first");
+      return;
+    }
+
+    const res = await fetch("/api/bookmarks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userEmail: session.user.email,
+        jobId: job._id,
+        jobData: job,
+      }),
+    });
+
+    if (res.ok) {
+      alert("Bookmarked successfully!");
+    } else if (res.status === 409) {
+      alert("Already bookmarked!");
+    } else {
+      alert("Something went wrong!");
+    }
+  };
+
+
+
+
+
   // convert skills string -> array
   const skillsArray = job.skills
     ? job.skills.split(",").map((s) => s.trim())
@@ -43,7 +73,11 @@ function JobCard({ job }) {
 
           <div className="flex flex-col items-start md:items-end gap-2">
             {/* Bookmark Icon */}
-            <Bookmark className="text-gray-500 hover:text-gray-900 cursor-pointer" size={24} />
+            <Bookmark
+              onClick={handleBookmark}
+              className="text-gray-500 hover:text-gray-900 cursor-pointer"
+              size={24}
+            />
 
             {/* Salary */}
             {job.salary && (

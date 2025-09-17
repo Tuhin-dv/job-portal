@@ -14,6 +14,7 @@ export default function DashboardLayout({ children }) {
     { href: "/dashboard", label: "Overview", icon: Home },
     { href: "/dashboard/jobpost", label: "Job Post", icon: Plus },
     { href: "/dashboard/manage-user", label: "Manage User", icon: Plus },
+    { href: "/dashboard/saved-jobs", label: "Saved Jobs", icon: Plus },
   ]
 
   return (
