@@ -1,14 +1,18 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { MapPin, Clock, Calendar, Bookmark } from "lucide-react";
+import React, { useState } from "react";
+import { MapPin, Clock, Calendar, Bookmark, BookmarkCheck } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
+
 function JobCard({ job }) {
   const { data: session } = useSession(); 
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
   const handleBookmark = async () => {
     if (!session?.user?.email) {
-      alert("Please login first");
+      Swal.fire("Login Required", "Please login first", "warning");
       return;
     }
 
@@ -23,17 +27,15 @@ function JobCard({ job }) {
     });
 
     if (res.ok) {
-      alert("Bookmarked successfully!");
+      setIsBookmarked(true);
+      Swal.fire("Success!", "Bookmarked successfully!", "success");
     } else if (res.status === 409) {
-      alert("Already bookmarked!");
+      Swal.fire("Info", "Already bookmarked!", "info");
+      setIsBookmarked(true);
     } else {
-      alert("Something went wrong!");
+      Swal.fire("Error", "Something went wrong!", "error");
     }
   };
-
-
-
-
 
   // convert skills string -> array
   const skillsArray = job.skills
@@ -69,15 +71,21 @@ function JobCard({ job }) {
             </h2>
           </div>
 
-          {/* Salary */}
-
+          {/* Salary + Bookmark */}
           <div className="flex flex-col items-start md:items-end gap-2">
             {/* Bookmark Icon */}
-            <Bookmark
-              onClick={handleBookmark}
-              className="text-gray-500 hover:text-gray-900 cursor-pointer"
-              size={24}
-            />
+            {isBookmarked ? (
+              <BookmarkCheck
+                className="text-green-600 cursor-pointer"
+                size={24}
+              />
+            ) : (
+              <Bookmark
+                onClick={handleBookmark}
+                className="text-gray-500 hover:text-gray-900 cursor-pointer"
+                size={24}
+              />
+            )}
 
             {/* Salary */}
             {job.salary && (
